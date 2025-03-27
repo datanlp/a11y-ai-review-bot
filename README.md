@@ -1,2 +1,10 @@
-# a11y-ai-review-bot
-🤖 AI-powered accessibility review bot for GitHub Pull Requests. Automatically detects WCAG 2.1 AA issues in Angular, HTML, CSS, and Cypress files using OpenAI. Created and maintained by Vira Melnyk.
+# AI A11Y Bot
+
+This is a code accessibility review bot powered by OpenAI and integrated with GitHub.
+
+## Author
+
+Created and maintained by **Vira Melnyk**.  
+All rights reserved. Unauthorized use is prohibited.
+
+For inquiries, please contact the author directly.

@@ -1,0 +1,16 @@
+{
+  "name": "ai-a11y-bot",
+  "version": "1.5.1",
+  "type": "module",
+  "main": "ai-a11y-bot.js",
+  "scripts": {
+    "start": "node ai-a11y-bot.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "node-fetch": "^2.7.0",
+    "octokit": "^2.0.15",
+    "openai": "^4.20.0"
+  },
+  "author": "Vira Melnyk"
+}
