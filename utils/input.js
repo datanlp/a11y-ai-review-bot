@@ -1,17 +1,17 @@
-import { createOctokit } from './octokit-helper.js';
+import { createOctokit } from "./octokit-helper.js";
 
 export async function getInput(repoFullName, filePath) {
   const octokit = createOctokit();
-  const [owner, repo] = repoFullName.split('/');
-  
+  const [owner, repo] = repoFullName.split("/");
+
   // Get the latest open PR number
   const pullRequests = await octokit.rest.pulls.list({
     owner,
     repo,
-    state: 'open',
+    state: "open",
     per_page: 1,
-    sort: 'updated',
-    direction: 'desc',
+    sort: "updated",
+    direction: "desc",
   });
 
   const pr = pullRequests.data[0];
@@ -25,6 +25,6 @@ export async function getInput(repoFullName, filePath) {
     ref: sha,
   });
 
-  const content = Buffer.from(fileContent.content, 'base64').toString('utf8');
+  const content = Buffer.from(fileContent.content, "base64").toString("utf8");
   return content;
 }
