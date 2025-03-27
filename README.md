@@ -24,11 +24,14 @@ All the review happens in the cloud, not locally.
 
 1. Make sure you have **Node.js v18+** installed.
 2. Clone this repository:
+
 ```bash
 git clone https://github.com/yourusername/a11y-ai-review-bot.git
 cd a11y-ai-review-bot
 ```
+
 3. Install dependencies:
+
 ```bash
 npm install
 ```
@@ -60,77 +63,79 @@ OPENAI_MODEL=gpt-4
 This file tells the bot which repo and pull request to check.
 
 Example `.a11yrc`:
+
 ```json
 {
-  "repo": "your-username/your-repo-name",
-  "pr": 42
+  "repo": "your-username/your-repo-name"
 }
 ```
 
-- `"repo"` is required
-- `"pr"` is optional:
-  - You can also pass the PR number directly in the command
-  - Or use `--latest` to automatically select the most recent open PR
+You can also pass the PR number in the command, or use `--latest` to select the most recently updated open PR.
 
 ---
 
 ## ▶️ How to Run the Bot
 
-You can run the bot in two ways:
+---
 
-### ✅ 1. Check the latest open Pull Request
+### 📁 Folder Structure Example
 
-```bash
-node ai-a11y-bot.js --latest
+```
+/projects
+  ├── your-project-to-check/
+  │   ├── package.json
+  │   ├── .a11yrc           ← stays here
+  │   └── (you run the bot from here)
+
+  └── your-bot-folder-name/ ← bot lives here
+      └── ai-a11y-bot.js
 ```
 
-This will:
-- Automatically find the most recently updated open PR
-- Review the files in that PR
+> The bot should **not** be placed inside your project folder.  
+> It can live outside, anywhere on your system. Just set the correct relative path in `package.json`.
 
-You can also define this in your project's `package.json`:
+You can run the bot from your project using a single script in `package.json`.
+
+### 📦 package.json
 
 ```json
 "scripts": {
-  "a11y-latest": "node ../a11y-bot/ai-a11y-bot.js --latest"
+  "a11y-bot": "node ../your-bot-folder-name/ai-a11y-bot.js"
 }
 ```
 
-Then run:
-
-```bash
-npm run a11y-latest
-```
+> 🧠 Replace `your-bot-folder-name` with the actual folder name where the bot is located.
 
 ---
 
-### 🔢 2. Check a specific Pull Request by number
+### ✅ 1. Run on the latest open Pull Request
 
 ```bash
-node ai-a11y-bot.js 42
+npm run a11y-bot -- --latest
 ```
 
-You can also define this in `package.json`:
+> `--` is important! It tells npm to pass `--latest` to the script.
 
-```json
-"scripts": {
-  "a11y-pr": "node ../a11y-bot/ai-a11y-bot.js"
-}
-```
+---
 
-Then run:
+### 🔢 2. Run on a specific Pull Request
 
 ```bash
-npm run a11y-pr 42
+npm run a11y-bot 42
 ```
 
-🧠 Just add the PR number after the command.
+The bot will:
+
+- Read `.a11yrc` from your project folder
+- Use the bot logic from the external folder
+- Post A11Y review comments to the selected PR on GitHub
 
 ---
 
 ## 📁 What the Bot Does
 
 For each file:
+
 - Finds accessibility problems (based on WCAG 2.1 AA)
 - Suggests code patches
 - Explains each fix
@@ -142,60 +147,3 @@ For each file:
 
 Created by **Vira Melnyk**  
 This code is **proprietary**. You may not use or copy it without permission.
-
-
-
----
-
-## 🔄 Integration with Your Existing Project (Optional)
-
-You can run this bot **from inside the project you want to check**.  
-This is useful if you want to add a script to your `package.json` like this:
-
-### 📁 Example folder structure:
-
-```
-/your-project-to-check
-  ├── package.json
-  ├── .a11yrc ← lives here
-  └── ../a11y-bot/ ← the bot lives in another folder
-```
-
----
-
-### 🧩 Step-by-step
-
-#### 1. In your `.a11yrc` (in the project to check):
-
-```json
-{
-  "repo": "your-username/your-repo-name"
-}
-```
-
-(You can also include `"pr": 42`, or pass PR number in the command.)
-
-#### 2. In your project's `package.json`, add:
-
-```json
-"scripts": {
-  "a11y": "node ../a11y-bot/ai-a11y-bot.js --latest",
-  "a11y-pr": "node ../a11y-bot/ai-a11y-bot.js"
-}
-```
-
-> Replace `../a11y-bot/` with the actual relative path to where the bot folder is.
-
----
-
-#### 3. Run from your project root:
-
-```bash
-npm run a11y        # runs on latest PR
-npm run a11y-pr 42  # runs on PR #42
-```
-
-The bot will:
-- Read `.a11yrc` from your project folder
-- Use the bot logic from the external folder
-- Post comments to the PR on GitHub
